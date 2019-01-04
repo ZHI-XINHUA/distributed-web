@@ -24,7 +24,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
-      <scope>test</scope>
+     <scope>test</scope>
     </dependency>
     <!--==================日志======================-->
     <dependency>
@@ -117,6 +117,13 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.16.10</version>
+    </dependency>
+
+    <!--==========spring-data-mongodb==============-->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-mongodb</artifactId>
+      <version>1.7.0.RELEASE</version>
     </dependency>
   </dependencies>
 
