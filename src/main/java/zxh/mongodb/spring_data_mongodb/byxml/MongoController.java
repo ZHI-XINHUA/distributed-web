@@ -20,5 +20,9 @@ public class MongoController {
     public void save(){
         System.out.println("===save===");
         service.save(new Person("zxh",18));
+
+
     }
+
+
 }
