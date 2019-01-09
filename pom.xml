@@ -17,113 +17,130 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <!--版本号管理-->
+    <org.springframework.version>4.3.6.RELEASE</org.springframework.version>
+    <spring.data.mongodb.version>1.7.0.RELEASE</spring.data.mongodb.version>
+    <junit.version>4.12</junit.version>
+    <org.slf4j.version>1.7.7</org.slf4j.version>
+    <log4j.version>1.2.17</log4j.version>
+    <javax.servlet.version>3.1.0</javax.servlet.version>
+    <javax.servlet.jsp.version>2.2</javax.servlet.jsp.version>
+    <javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
+    <mysql.version>5.1.35</mysql.version>
+    <commons.fileupload.version>1.3.1</commons.fileupload.version>
+    <org.projectlombok.version>1.16.10</org.projectlombok.version>
+    <org.apache.commons.version>3.4</org.apache.commons.version>
+    <org.aspectj.version>1.8.9</org.aspectj.version>
+    <com.github.stefanbirkner.version>1.16.1</com.github.stefanbirkner.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>${junit.version}</version>
      <scope>test</scope>
     </dependency>
     <!--==================日志======================-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.7</version>
+      <version>${org.slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.7</version>
+      <version>${org.slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+      <version>${log4j.version}</version>
     </dependency>
     <!--============================J2EE servlet================-->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <version>${javax.servlet.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
-      <version>2.2</version>
+      <version>${javax.servlet.jsp.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <version>${javax.servlet.jstl.version}</version>
     </dependency>
     <!--====================mysql驱动包===============-->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.35</version>
+      <version>${mysql.version}</version>
     </dependency>
     <!--================springframework====================-->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-      <version>4.3.6.RELEASE</version>
+      <version>${org.springframework.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.3.6.RELEASE</version>
+      <version>${org.springframework.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>4.3.6.RELEASE</version>
+      <version>${org.springframework.version}</version>
     </dependency>
+    <!--spring 单元测试包-->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>4.3.6.RELEASE</version>
+      <version>${org.springframework.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>4.3.6.RELEASE</version>
+      <version>${org.springframework.version}</version>
     </dependency>
     <dependency>
       <groupId>com.github.stefanbirkner</groupId>
       <artifactId>system-rules</artifactId>
-      <version>1.16.1</version>
+      <version>${com.github.stefanbirkner.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
-      <version>1.8.9</version>
+      <version>${org.aspectj.version}</version>
     </dependency>
     <!--==================其他需要的包====================-->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.4</version>
+      <version>${org.apache.commons.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
-      <version>1.3.1</version>
+      <version>${commons.fileupload.version}</version>
     </dependency>
     <!--===========lombok插件:方便使用@log4j/log4j2注解==============-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.16.10</version>
+      <version>${org.projectlombok.version}</version>
     </dependency>
 
     <!--==========spring-data-mongodb==============-->
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-mongodb</artifactId>
-      <version>1.7.0.RELEASE</version>
+      <version>${spring.data.mongodb.version}</version>
     </dependency>
   </dependencies>
 
