@@ -3,7 +3,12 @@ package zxh.mongodb.spring_data_mongodb.dao;
 import zxh.mongodb.spring_data_mongodb.entity.UserPO;
 
 /**
- * Created by xh.zhi on 2019-1-8.
+ * User dao
  */
 public interface IUserDao extends IBaseDao<UserPO> {
+    /**
+     * 添加用户
+     * @param user
+     */
+    void addUser(UserPO user);
 }
