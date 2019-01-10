@@ -11,5 +11,6 @@
     <context:annotation-config />
 
     <import resource="classpath:mongodb/applicationContext-mongo.xml"/>
+    <import resource="classpath:memcached/memcached.xml"/>
 
 </beans>
