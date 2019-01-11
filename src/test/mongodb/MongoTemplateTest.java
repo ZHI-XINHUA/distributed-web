@@ -2,6 +2,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +29,9 @@ public class MongoTemplateTest {
     @Autowired
     MongoTemplate mongoTemplate;
 
+    /**
+     * 保存
+     */
     @Test
     public void save(){
         UserPO user = new UserPO();
@@ -36,11 +41,13 @@ public class MongoTemplateTest {
         user.setBirth(new Timestamp(System.currentTimeMillis()));
         user.setSex(1);
         user.setAddress("克利夫兰");
-
         //插入
         mongoTemplate.save(user);
     }
 
+    /**
+     * 更新
+     */
     @Test
     public void update(){
         Query query = new Query();
@@ -55,7 +62,34 @@ public class MongoTemplateTest {
         mongoTemplate.updateFirst(query,update,UserPO.class);
     }
 
+    /**
+     * findById
+     */
+    @Test
+    public void findByIdTest(){
+        UserPO userPO = mongoTemplate.findById("4225ce84-b1bd-4a98-b02b-bf54e62753d9",UserPO.class);
+        System.out.println(userPO.toString());
+    }
 
+    @Test
+    public void findOrder(){
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC,"age");
+        Query query  = new Query();
+        query.with(new Sort(order)); //添加排序
+        List<UserPO> list = mongoTemplate.find(query,UserPO.class);
+        for (UserPO user:list){
+            System.out.println(user.toString());
+        }
+    }
+
+
+
+    /**
+     * 解析实体类 @Id和@Field的字段和值
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
     @Test
     public void annotionTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         UserPO user = new UserPO();

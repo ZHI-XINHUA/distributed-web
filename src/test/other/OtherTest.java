@@ -45,4 +45,24 @@ public class OtherTest {
         }
 
     }
+
+    @Test
+    public void exceptionTest(){
+        System.out.println("===start=====");
+        int i=0;
+        if(i==0){
+            throw  new RuntimeException("测试exception");
+        }
+        System.out.println("======end=====");
+    }
+
+    @Test
+    public void test(){
+        String s = "age  ";
+        String  orderItem_ = s.toUpperCase();
+        String replaceStr = orderItem_.indexOf("ASC")>=0?"ASC":orderItem_.indexOf("DESC")>=0?"DESC":"ASC";
+        String orderAttr = orderItem_.replace(replaceStr,"").trim();
+        String orderReg = replaceStr;
+        System.out.println(orderAttr +" "+orderReg);
+    }
 }
