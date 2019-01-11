@@ -156,6 +156,15 @@ public class PageModel<T> implements Serializable{
         }
     }
 
+    /**
+     * 获取第一条记录位置，用于数据库查询时设置的第一条记录
+     *
+     * @return
+     */
+    public int getFirstResult() {
+        return (this.getPageNo() - 1) * this.getPageSize();
+    }
+
     public List<T> getResult() {
         return result;
     }

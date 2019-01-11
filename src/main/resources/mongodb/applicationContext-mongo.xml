@@ -13,7 +13,21 @@
     <!-- 获取配置资源 -->
     <context:property-placeholder location="classpath:mongodb/mongodb.properties" />
 
+    <!-- 默认Mongo类型映射类 -->
+    <!--<bean name="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
+        &lt;!&ndash; 去除默认生成“_class”字段的关键，即：将该类带有typeKey参数的构造函数的参数值设置为null即可 &ndash;&gt;
+        <constructor-arg name="typeKey"><null/></constructor-arg>
+    </bean>-->
 
+    <!-- MongoDB类型转换器，可自定义扩展类型之间的转换 -->
+    <mongo:mapping-converter id="mongoConverter">
+        <mongo:custom-converters>
+           <mongo:converter>
+               <bean class="zxh.mongodb.spring_data_mongodb.converter.TimestampConverter"/>
+           </mongo:converter>
+            <!--更多自定义转换器-->
+        </mongo:custom-converters>
+    </mongo:mapping-converter>
 
     <!--
          connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住
@@ -41,5 +55,6 @@
     <!-- mongodb的模板 -->
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+        <constructor-arg name="mongoConverter" ref="mongoConverter" />
     </bean>
 </beans>

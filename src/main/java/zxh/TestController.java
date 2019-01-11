@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public class TestController {
 
-    @RequestMapping("/hello")
+    @RequestMapping("/index")
     public String hello(){
         System.out.println("zzz");
-        return "hello";
+        return "index.jsp";
     }
 }

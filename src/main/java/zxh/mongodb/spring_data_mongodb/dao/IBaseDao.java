@@ -35,6 +35,7 @@ public interface IBaseDao<T> {
      */
     void delete(Serializable... ids);
 
+
     /**
      * 根据id查询
      * @param id
@@ -178,6 +179,10 @@ public interface IBaseDao<T> {
      * @return 分页模型对象（不会为null）
      */
     PageModel<T> pageByParam(int pageNo, int pageSize, String param, Object value, String order);
+
+    PageModel<T> pageByParams(int pageNo, int pageSize, String[] param, Object[] value);
+
+    PageModel<T> pageByParams(int pageNo, int pageSize, String[] param, Object[] value, String order);
 
 
 

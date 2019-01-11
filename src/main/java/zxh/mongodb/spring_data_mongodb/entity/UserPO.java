@@ -31,7 +31,6 @@ public class UserPO implements Serializable {
     private int age;
 
     //索引
-    @Indexed(name = "age_index",direction = IndexDirection.ASCENDING)
     @Field
     private Timestamp birth;
 
@@ -86,5 +85,17 @@ public class UserPO implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", sex=" + sex +
+                ", age=" + age +
+                ", birth=" + birth +
+                ", address='" + address + '\'' +
+                '}';
     }
 }
