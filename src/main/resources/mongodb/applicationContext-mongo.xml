@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 获取配置资源 -->
     <context:property-placeholder location="classpath:mongodb/mongodb.properties" />
@@ -29,14 +29,14 @@
         </mongo:custom-converters>
     </mongo:mapping-converter>
 
-    <!--
+    <!-- 1.7.x.RELEASE 的配置
          connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住
          max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）
          connect-timeout:在建立（打开）套接字连接时的超时时间（ms）
          socket-timeout:套接字超时时间;该值会被传递给Socket.setSoTimeout(int)
          slave-ok:指明是否答应驱动从次要节点或者奴隶节点读取数据
          -->
-    <mongo:mongo  replica-set="${mongo.replicaSet}">
+   <mongo:mongo  replica-set="${mongo.replicaSet}">
         <mongo:options
                 connections-per-host="${mongo.connectionsPerHost}"
                 threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
@@ -50,11 +50,68 @@
                 write-timeout="${mongo.riteTimeout}"
                 write-fsync="${mongo.writeFsync}"/>
     </mongo:mongo>
+
     <!-- 设置使用的数据库 名-->
-    <mongo:db-factory  id="mongoDbFactory" dbname="testdb" mongo-ref="mongo"/>
+   <mongo:db-factory  id="mongoDbFactory" dbname="testdb" mongo-ref="mongo"/>
+
     <!-- mongodb的模板 -->
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
         <constructor-arg name="mongoConverter" ref="mongoConverter" />
     </bean>
+
+
+
+    <!--
+          1.7.x.RELEASE 的配置之后（具体什么版本开始用这个暂时没有研究）
+
+        description : 描述
+        min-connections-per-host：客户端最小连接数
+        connections-per-host：客户端最大连接数，超过了将会被阻塞，默认100
+        threads-allowed-to-block-for-connection-multiplier：可被阻塞的线程数因子，默认值为5，如果connectionsPerHost
+        配置为10，那么最多能阻塞50个线程，超过50个之后就会收到一个异常
+        max-wait-time：阻塞线程获取连接的最长等待时间，默认120000 ms
+        max-connection-idle-time：连接池连接最大空闲时间
+        max-connection-life-time：连接池连接的最大存活时间
+        connect-timeout：连接超时时间，默认值是0，就是不超时
+        socket-timeout：socket超时时间，默认值是0，就是不超时
+        socket-keep-alive：keep alive标志，默认false
+      server-selection-timeout：服务器查询超时时间，它定义驱动在抛出异常之前等待服务器查询成功，默认30s,单位milliseconds
+        read-preference：MongoDB有5种ReadPreference模式：
+            primary    主节点，默认模式，读操作只在主节点，如果主节点不可用，报错或者抛出异常。
+            primaryPreferred   首选主节点，大多情况下读操作在主节点，如果主节点不可用，如故障转移，读操作在从节点。
+            secondary    从节点，读操作只在从节点， 如果从节点不可用，报错或者抛出异常。
+            secondaryPreferred    首选从节点，大多情况下读操作在从节点，特殊情况（如单主节点架构）读操作在主节点。
+            nearest    最邻近节点，读操作在最邻近的成员，可能是主节点或者从节点。
+        write-concern：WriteConcern的7种写入安全机制抛出异常的级别：
+            NONE:没有异常抛出
+            NORMAL:仅抛出网络错误异常，没有服务器错误异常，写入到网络就返回
+            SAFE:抛出网络错误异常、服务器错误异常；并等待服务器完成写操作。
+            MAJORITY: 抛出网络错误异常、服务器错误异常；并多数主服务器完成写操作。
+            FSYNC_SAFE: 抛出网络错误异常、服务器错误异常；写操作等待服务器将数据刷新到磁盘。
+            JOURNAL_SAFE:抛出网络错误异常、服务器错误异常；写操作等待服务器提交到磁盘的日志文件。
+            REPLICAS_SAFE:抛出网络错误异常、服务器错误异常；等待至少2台服务器完成写操作。
+        heartbeat-frequency：驱动用来确保集群中服务器状态的心跳频率
+        min-heartbeat-frequency：驱动重新检查服务器状态最少等待时间
+        heartbeat-connect-timeout：集群心跳连接的超时时间
+        heartbeat-socket-timeout：集群心跳连接的socket超时时间
+        ssl：驱动是否使用ssl进行连接，默认是false
+        ssl-socket-factory-ref：用来进行ssl连接的SSLSocketFactory，如果配置为none，则使用SSLSocketFactory.getDefault()
+        -->
+    <!--
+    <mongo:mongo-client id="mongoClient" host="192.168.3.31" port="27017">
+        <mongo:client-options
+                connections-per-host="${mongo.connectionsPerHost}"
+                threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+                connect-timeout="${mongo.connectTimeout}"
+                max-wait-time="${mongo.maxWaitTime}"
+                socket-keep-alive="${mongo.socketKeepAlive}"
+                socket-timeout="${mongo.socketTimeout}"
+                />
+    </mongo:mongo-client>
+
+    <mongo:db-factory dbname="mongoDbFactory" mongo-ref="mongoClient"/>-->
+
+
+
 </beans>
