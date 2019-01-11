@@ -9,3 +9,4 @@ spring版本：5.1.3
 
 
 ## 2、spring-data-mongodb
+- spring-data-mongodb：1.7.0.RELEASE
