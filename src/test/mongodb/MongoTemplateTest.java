@@ -1,6 +1,7 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -26,8 +27,15 @@ import java.util.UUID;
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class MongoTemplateTest {
 
+
     @Autowired
+    @Qualifier("mongoTemplate") //testdb1数据库
     MongoTemplate mongoTemplate;
+
+
+    @Autowired
+    @Qualifier("mongoTemplate2") //testdb2数据库
+    MongoTemplate mongoTemplate2;
 
     /**
      * 保存
@@ -43,6 +51,19 @@ public class MongoTemplateTest {
         user.setAddress("克利夫兰");
         //插入
         mongoTemplate.save(user);
+    }
+
+    @Test
+    public void save2(){
+        UserPO user = new UserPO();
+        user.setId(UUID.randomUUID().toString());
+        user.setName("kobe");
+        user.setAge(40);
+        user.setBirth(new Timestamp(System.currentTimeMillis()));
+        user.setSex(1);
+        user.setAddress("克利夫兰");
+        //插入
+        mongoTemplate2.save(user);
     }
 
     /**
@@ -67,7 +88,7 @@ public class MongoTemplateTest {
      */
     @Test
     public void findByIdTest(){
-        UserPO userPO = mongoTemplate.findById("4225ce84-b1bd-4a98-b02b-bf54e62753d9",UserPO.class);
+        UserPO userPO = mongoTemplate.findById("203400d7-9b0c-49f8-adab-be4473104a84",UserPO.class);
         System.out.println(userPO.toString());
     }
 
@@ -76,7 +97,7 @@ public class MongoTemplateTest {
         Sort.Order order = new Sort.Order(Sort.Direction.DESC,"age");
         Query query  = new Query();
         query.with(new Sort(order)); //添加排序
-        List<UserPO> list = mongoTemplate.find(query,UserPO.class);
+        List<UserPO> list = mongoTemplate2.find(query,UserPO.class);
         for (UserPO user:list){
             System.out.println(user.toString());
         }

@@ -2,6 +2,7 @@ package zxh.mongodb.spring_data_mongodb.dao.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -31,7 +32,10 @@ public abstract  class BaseDaoImpl<T> implements IBaseDao<T>{
     protected abstract Class<T> getEntityClass();
 
     @Autowired
+    @Qualifier("mongoTemplate") //指定数据源的template
     private MongoTemplate template;
+
+
 
     @Override
     public void save(T entity) {
