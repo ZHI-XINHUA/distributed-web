@@ -9,11 +9,16 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-//https://www.cnblogs.com/winner-0715/p/6246480.html
+
+/**
+ * 消息发送端
+ */
 public class SpringQueueSender {
     public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:activemq/activemq.xml");
+        //获取JmsTemplate
         JmsTemplate jmsAmqTemplate = (JmsTemplate) ctx.getBean("jmsAmqTemplate");
+        //发送消息
         jmsAmqTemplate.send(new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {

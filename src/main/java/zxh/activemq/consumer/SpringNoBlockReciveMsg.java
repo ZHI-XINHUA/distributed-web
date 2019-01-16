@@ -4,18 +4,20 @@ import org.apache.xbean.spring.context.ClassPathXmlApplicationContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.io.IOException;
+
 /**
- * 消息接收端
+ * 非阻塞接收消息，这里加载文件就好
  */
-public class SpringReciveMsg {
+public class SpringNoBlockReciveMsg {
     public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:activemq/activemq.xml");
-        //获取JmsTemplate
-        JmsTemplate jmsAmqTemplate = (JmsTemplate) ctx.getBean("jmsAmqTemplate");
-        //获取消息
-        String msg = (String) jmsAmqTemplate.receiveAndConvert();
 
-        System.out.println("收到信息："+msg);
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
