@@ -279,7 +279,9 @@ public abstract  class BaseDaoImpl<T> implements IBaseDao<T>{
             }
 
             Method method = class_.getDeclaredMethod(getMethodName);
-            if(method.getModifiers()!= Modifier.PUBLIC){
+            //修改bug，method.getModifiers()!= Modifier.PUBLIC 比较错误，Modifier.PUBLIC是位运算
+            //if(method.getModifiers()!= Modifier.PUBLIC){
+            if(!Modifier.isPublic(method.getModifiers())){
                 continue;
             }
             Object value = method.invoke(entity);
